@@ -1,22 +1,22 @@
 create table player (
-        	ply_id serial,
-            ply_name VARCHAR(60),
-            ply_passwd VARCHAR(60),
-            primary key(ply_id)
+    ply_id serial,
+    ply_name VARCHAR(60),
+    ply_passwd VARCHAR(60),
+    primary key(ply_id)
 );
         
 create table card (
-					crd_id SERIAL not null,
-					crd_name VARCHAR(60) not null, 	-- card name
-					crd_description VARCHAR(60), 		-- card description (this card wins over ...)
-					primary key (crd_id)	
+    crd_id SERIAL not null,
+    crd_name VARCHAR(60) not null, 	-- card name
+    crd_description VARCHAR(60), 		-- card description (this card wins over ...)
+    primary key (crd_id)	
 );
 
 create table cardwcard (
-					cwc_id SERIAL not null,
-					cwc_cwins_id INT not null, 		-- this card wins over this other card
-					cwc_clooses_id INT not null, 	-- this card looses 
-					primary key (cwc_id)	
+    cwc_id SERIAL not null,
+    cwc_cwins_id INT not null, 		-- this card wins over this other card
+    cwc_clooses_id INT not null, 	-- this card looses 
+    primary key (cwc_id)	
 );
 
 create table match

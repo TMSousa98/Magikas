@@ -122,92 +122,6 @@ module.exports.getOpponentHP = async function(pmId) {
 	}
 };
 
-module.exports.attackPlayer = async function (pmId, deckId)
-{
-	try
-	{
-		let res;
-		// get player match info 
-		res = await this.getPlayerMatch(pmId);
-		if (res.status != 200)
-		{
-			return res;
-		}
-		
-		if (res.result.mt_finished)
-		{
-			return {status: 400, result: {msg: "That match has already ended"}};
-		}
-		
-		let player = res.result;
-		if (player.pm_state_id != 2)
-		{
-			return {status: 400, result: {msg: "You cannot attack at this moment"}};
-		}
-
-		// get player deck card info
-		res = await this.getPlayerDeckCard(pmId, deckId);
-		if (res.status != 200)
-		{
-			return res;
-		}
-		let card = res.result;
-		if (card.deck_pos_id != 2)
-		{
-			return {status: 400, result: {msg: "The card cannot attack at this moment"}};
-		}
-		// get opponent info
-		let matchId = player.pm_match_id;
-		res = await this.getOpponent(pmId, matchId);
-		if (res.status != 200)
-		{
-			return res;
-		}
-		let opponent = res.result;
-		let opPmId = opponent.pm_id;
-		
-		// check if opponent deck as no "living" cards
-		let sqlCheckOpDeck = `select * from deck where deck_pm_id = $1 and (deck_pos_id = 2 or deck_pos_id = 3) and deck_card_alive = true`;
-		let resCheckOpDeck = await pool.query(sqlCheckOpDeck, [opPmId]);
-		if (resCheckOpDeck.rows.length != 0)
-		{
-			return {status: 400, result: {msg: "Cannot attack opponent, some cards are still alive"}};
-		}		
-		
-		// Mark the card has "TablePlayed"
-		let sqlUpPos = `update deck set deck_pos_id = 3 where deck_id = $1`;
-		await pool.query(sqlUpPos, [deckId]);
-		
-		res = await this.getOpponentHP(opPmId);
-		if (res.status != 200) 
-		{
-			return res;
-		}
-		
-		let opHp = res.result;
-		if(opHp.pm_hp > 0) 
-		{
-			// remove 1 from opponent life
-			let sqlUpHp = `update playermatch set pm_hp = pm_hp - 1 where pm_id = $1`;
-			await pool.query(sqlUpHp, [opPmId]);
-			return {status: 200, result: {msg: "Successfully removed 1 HP from the opponent"}};
-		}
-		else
-		{
-			// mark opponent as dead
-			let sqlUpState = `update playermatch set pm_state_id = 3 where pm_id = $1`;
-			let updateMatch = `update match set mt_finished = true where match_id = $1`;
-			await pool.query(sqlUpState, [opPmId]);
-			return {status: 200, result: {msg: "Successfully killed the opponent"}};
-		}
-	}
-	catch (err)
-	{
-		console.log(err);
-		return {status: 500, result: err};
-	}
-};
-
 module.exports.endTurn = async function (pmId)
 {
 	try
@@ -320,21 +234,27 @@ module.exports.playCardFromHand = async function (pmId, deckId)
 			return {status: 400, result: {msg: "You cannot play a new card at this moment"}};
 		}
 		
-		// if card exists on players hand, change it to the table
-		let sql = `update deck set deck_pos_id = 3 where deck_id = $1 and deck_pm_id = $2 and deck_pos_id = 1 `;
+		//if card exists on players hand, change it to the table
+		//pos_id = 1 hand
+		//pos_id = 3 table
+		
+		//pm_id = player_match_id
+		//pm_state_id = 2 finished playing hand?
+		
+		let sql = `update deck set deck_pos_id = 3 where deck_id = $1 and deck_pm_id = $2 and deck_pos_id = 1`;
 		let result = await pool.query(sql, [deckId, pmId]);
 		if (result.rowCount > 0)
 		{
-			let sqlCountCards = `select * from deck where deck_pm_id = $1 and deck_pos_id = 3`;
-            let resultCount = await pool.query(sqlCountCards, [pmId]);
-            if (resultCount.rows.length == 0) 
-            {
-                // update the state of the player match because a card has been played
-                let sqlNext = `update playermatch set pm_state_id = 2 where pm_id = $1`;
-                await pool.query(sqlNext, [pmId]);
-                return {status: 200, result: {msg: "Last Card played"}};
-            }
-            return {status: 200, result: {msg: "Card played"}};
+			let sqlCountCards = `select * from deck where deck_pm_id = $1 and deck_pos_id = 1`;
+			let resultCount = await pool.query(sqlCountCards, [pmId]);
+			if (resultCount.rows.length == 0)
+			{
+				// update the state of the player match because a card has been played
+				let sqlNext = `update playermatch set pm_state_id = 2 where pm_id = $1`;
+				await pool.query(sqlNext, [pmId]);
+				return {status: 200, result: {msg: "Last Card played"}};
+			}
+			return {status: 200, result: {msg: "Card played"}};
 		}
 		else
 		{
@@ -420,7 +340,7 @@ module.exports.attackCard = async function (pmId, deckId, opDeckId)
 		let resWin = await pool.query(sqlBattle, [card.deck_card_id, opCard.deck_card_id]);
 		if (resWin.rows.length > 0)
 		{
-			// Card has advtage over opponent and therefore wins
+			// Card has advantage over opponent and therefore wins
 			let sqlWin = `update deck set deck_card_alive = false where deck_id = $1`;
 			await pool.query(sqlWin, [opDeckId]);
 			return {status: 200, result: {msg: "Card has elemental advantage and therefore kills the opponent's card"}};

@@ -11,8 +11,8 @@ body {
     flex-direction: column;
     background-color: burlywood;
     height: 100vh;
-    margin:0;
-    overflow-x:hidden;
+    margin: 0;
+    overflow-x: hidden;
 }
 
 a {

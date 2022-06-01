@@ -35,12 +35,6 @@ router.post('/:pId/playermatches/:pmId/actions', async function (req, res, next)
 		let result = await pModel.playCardFromHand(pmId, dId);
 		res.status(result.status).send(result.result);
 	}
-	else if (action == "attackPlayer")
-	{
-		let dId = req.body.deckId;
-		let result = await pModel.attackPlayer(pmId, dId);
-		res.status(result.status).send(result.result);
-	}
 	else
 	{
 		res.status(400).send({msg: "Invalid action"});
@@ -65,16 +59,15 @@ router.get('/playermatches/waiting', async function (req, res, next)
 
 router.get('/playermatches/:id', async function (req, res, next)
 {
-	console.log("Get match info for player ");
+	console.log("Get match info for player");
 	let pmId = req.params.id;
 	let result = await pModel.getPlayerMatchInfo(pmId);
 	res.status(result.status).send(result.result);
 });
 
-
 router.post('/', async function (req, res, next)
 {
-	console.log("Register player ");
+	console.log("Register player");
 	let username = req.body.username;
 	let password = req.body.password;
 	let result = await pModel.register(username, password);
@@ -83,7 +76,7 @@ router.post('/', async function (req, res, next)
 
 router.post('/:id/matches', async function (req, res, next)
 {
-	console.log("Create a new match for player ");
+	console.log("Create a new match for player");
 	let pId = req.params.id;
 	let result = await pModel.createMatch(pId);
 	res.status(result.status).send(result.result);
@@ -107,7 +100,6 @@ router.get('/playermatches/match/:mId', async function (req, res, next)
 	res.status(result.status).send(result.result);
 });
 
-
 router.post('/login', async function (req, res, next)
 {
 	console.log("Login player ");
@@ -119,25 +111,23 @@ router.post('/login', async function (req, res, next)
 
 router.get('/:pId/playermatches', async function (req, res, next)
 {
-	console.log("Get player matches ");
+	console.log("Get player matches");
 	let pId = req.params.pId;
 	let result = await pModel.getPlayerActiveMatches(pId);
 	res.status(result.status).send(result.result);
 });
 
-
 router.get('/:id', async function (req, res, next)
 {
-	console.log("Get playerinfo ");
+	console.log("Get playerinfo");
 	let pId = req.params.id;
 	let result = await pModel.getPlayerInfo(pId);
 	res.status(result.status).send(result.result);
 });
 
-
 router.get('/:pId/matches/:mId/playermatches/:pmId/opponent', async function (req, res, next)
 {
-	console.log("Get player match opponent ");
+	console.log("Get player match opponent");
 	let pId = req.params.pId;
 	let pmId = req.params.pmId;
 	let mId = req.params.mId;

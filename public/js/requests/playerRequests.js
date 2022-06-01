@@ -40,15 +40,6 @@ async function requestAttack(pId, pmId, deckId, opDeckId)
 		});
 }
 
-async function requestAttackPlayer(pId, pmId, deckId)
-{
-	return await requestAction(pId, pmId, 
-		{
-			deckId: deckId, 
-			action: "attackPlayer"
-		});
-}
-
 async function requestEndTurn(pId, pmId)
 {
 	return await requestAction(pId, pmId,

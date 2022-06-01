@@ -77,16 +77,6 @@ async function attack()
 	refreshButtons();
 }
 
-async function attackPlayer()
-{
-	let card = returnSelected(table);
-	await requestAttackPlayer(playerId, playerMatchId, card.getId());
-	await loadCards();
-	await loadScoreBoard();
-	setCardsState();
-	refreshButtons();
-}
-
 async function end()
 {
 	await requestEndTurn(playerId, playerMatchId);
@@ -146,9 +136,6 @@ async function setup()
 	loop();
 }
 
-
-
-
 function refreshButtons()
 {
 	for (let button of buttons)
@@ -183,15 +170,7 @@ function refreshButtons()
 				countAlive++;
 			}
 		}
-		if (countAlive == 0)
-		{
-			attackButton.setNewFunc(attackPlayer, "Attack Player");
-			if (returnSelected(table))
-			{
-				attackButton.enable();
-			}
-		}
-		else
+		if (countAlive != 0)
 		{
 			attackButton.setNewFunc(attack, "Attack");
 			if (returnSelected(table) && returnSelected(opponent))
@@ -292,7 +271,7 @@ async function loadCards()
 
 function draw()
 {
-	background(220);
+	background(50);
 	scoreBoard.draw();
 	
 	// draw the slots
