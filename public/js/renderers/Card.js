@@ -1,16 +1,14 @@
-const CWIDTH = 100;
-const CHEIGHT = 120;
-const IMGSIZE = 50;
+const CWIDTH = 150;
+const CHEIGHT = 170;
 
 class Card
 {
 	static images = {};
 
-	constructor(id, card_id, name, alive,  attacked, x, y)
+	constructor(id, card_id, alive, attacked, x, y)
 	{
 		this.id = id;
 		this.card_id = card_id;
-		this.name = name;
 		this.x = x;
 		this.y = y;
 		this.alive = alive;
@@ -34,22 +32,12 @@ class Card
 			fill(100, 100, 100);
 		}
 		strokeWeight(3);
-		if (this.enabled)
-		{
-			stroke(200, 0, 0);
-		}
-		else
-		{
-			stroke(0, 0, 0);
-		}
-		rect(this.x, this.y, CWIDTH, CHEIGHT, 5, 5, 5, 5);
+		rect(this.x, this.y, CWIDTH, CHEIGHT, 10, 10, 10, 10);
 		fill(0, 0, 0);
 		stroke(0, 0, 0);
 		strokeWeight(1);
-		textAlign(CENTER, CENTER);
-		text(this.name, this.x + CWIDTH / 2, this.y + CHEIGHT * 2 / 3);
 		imageMode(CENTER);
-		image(Card.images[this.card_id], this.x + CWIDTH / 2, this.y + CHEIGHT / 3, IMGSIZE, IMGSIZE);
+		image(Card.images[this.card_id], this.x + CWIDTH / 2, this.y + CHEIGHT / 2, CWIDTH, CHEIGHT);
 	}
 
 	getId()

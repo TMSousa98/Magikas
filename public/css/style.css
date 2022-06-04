@@ -35,11 +35,8 @@ a {
 main {
     align-items: center;
     justify-content: center;
-    height: 80%;
-    width: 60%;
     display: block;
     margin: 0 auto;
-    padding-left: 20px;
 }
 
 header {
@@ -52,6 +49,10 @@ header {
     top: 20px;
     left: 20px;
     width: 150px;
+    height: 150px;
+    background-image: url("../assets/Magikas_Logo.png");
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
 }
 
 nav {
@@ -132,7 +133,10 @@ footer {
 }
 
 #defaultCanvas0 {
+    margin-top: 10px;
     display: block;
     margin-left: auto;
     margin-right: auto;
+    background-size: contain;
+    background-repeat: no-repeat;
 }

@@ -582,8 +582,8 @@ module.exports.createMatch = async function (pId)
 		sql = `insert into playermatch (pm_player_id, pm_match_id, pm_state_id, pm_hp) values ($1, $2, 1, 3) returning *`;
 		res = await pool.query(sql, [pId, matchId]);
 		let pmId = res.rows[0].pm_id;
-		// Create 3 random cards (with repetition)
-		this.createRandomCards(pmId, 3);
+		// Create 5 random cards (with repetition)
+		this.createRandomCards(pmId, 5);
 		return {status: 200, result:{msg: "Match successfully created.", matchId: matchId, pmId: pmId}};
 	}
 	catch (err)
@@ -623,8 +623,8 @@ module.exports.joinMatch = async function (pId, mId)
 		res = await pool.query(sql, [pId, mId]);
 		let pmId = res.rows[0].pm_id;
 		
-		// Create 2 random cards, you will draw one later
-		this.createRandomCards(pmId, 2);
+		// Create 4 random cards, you will draw one later
+		this.createRandomCards(pmId, 4);
 		return {status: 200, result: {msg: "You successfully joined the match",pmId: pmId, oId: oId}};
 	}
 	catch (err)

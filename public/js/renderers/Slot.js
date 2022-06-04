@@ -1,5 +1,5 @@
-﻿const SWIDTH = 100;
-const SHEIGHT = 120;
+﻿const SWIDTH = 150;
+const SHEIGHT = 170;
 
 class Slot 
 {
@@ -12,7 +12,7 @@ class Slot
 	draw() 
 	{
 		fill(0);
-		rect(this.x, this.y, SWIDTH, SHEIGHT, 5, 5, 5, 5);
+		rect(this.x, this.y, SWIDTH, SHEIGHT, 10, 10, 10, 10);
 		fill(255);
 		textStyle(BOLD);
 		textSize(12);

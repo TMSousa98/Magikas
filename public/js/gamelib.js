@@ -1,19 +1,20 @@
-const width = 1000;
-const height = 700;
+const width = 1920;
+const height = 1080;
 
+let bg;
 let playerId;
 let scoreBoard;
 
-const CARDSPACE = 110;
+const CARDSPACE = 160;
 let hand = [];
-const HANDX = 50;
-const HANDY = 500;
+const HANDX = 600;
+const HANDY = 800;
 let table = [];
-const TABLEX = 400;
-const TABLEY = 350;
+const TABLEX = 600;
+const TABLEY = 600;
 let opponent = [];
-const OPX = 400;
-const OPY = 20;
+const OPX = 600;
+const OPY = 150;
 
 const slot1 = new Slot(TABLEX, TABLEY);
 const slot2 = new Slot(TABLEX + CARDSPACE, TABLEY);
@@ -28,9 +29,9 @@ const opslot4 = new Slot(OPX + CARDSPACE * 3, OPY);
 const opslot5 = new Slot(OPX + CARDSPACE * 4, OPY);
 const slots = [slot1,slot2,slot3,slot4, slot5, opslot1, opslot2, opslot3, opslot4, opslot5];
 
-const attackButton = new Button("Attack", 500, 650, attack);
-const playButton = new Button("Play Card", 150, 650, play);
-const endTurnButton = new Button("End Turn", 850, 650, end);
+const attackButton = new Button("Attack", 900, 1000, attack);
+const playButton = new Button("Play Card", 920, 1000, play);
+const endTurnButton = new Button("End Turn", 1600, 1000, end);
 const buttons = [attackButton, playButton, endTurnButton];
 
 let startingTurn = false;
@@ -102,7 +103,7 @@ async function removeCard()
 
 function preload()
 {
-
+	bg = loadImage('assets/background.png');
 }
 
 async function loadScoreBoard()
@@ -118,12 +119,11 @@ async function setup()
 	noLoop();
 	let canvas = createCanvas(width, height);
 	canvas.parent('game');
-	background(0);
 	// preload card images
 	let cards = await requestCardsInfo();
 	for (let card of cards)
 	{
-		Card.images[card.crd_id] = await loadImage('./assets/' + card.crd_name + '.png');
+		Card.images[card.crd_id] = await loadImage('./assets/Cards/' + card.crd_name + '.png');
 	}
 	// if I had the url of the images on the database it would be even easier (and it is more correct)
 	// cardImgs[card.crd_id] = await loadImage(card.crd_url);   
@@ -245,7 +245,7 @@ async function loadCards()
 		
 		if (card.cp_name === "Hand")
 		{
-			hand.push(new Card(card.deck_id, card.deck_card_id, card.crd_name, true, false,HANDX + CARDSPACE * handPos, HANDY));
+			hand.push(new Card(card.deck_id, card.deck_card_id, true, false,HANDX + CARDSPACE * handPos, HANDY));
 			handPos++;
 		}
 		else
@@ -253,7 +253,7 @@ async function loadCards()
 			// Limit the number of cards played in the table to 5
 			if(table.length < 5)
 			{
-				table.push(new Card(card.deck_id, card.deck_card_id, card.crd_name, true, card.cp_name === "TablePlayed",TABLEX + CARDSPACE * tablePos, TABLEY));
+				table.push(new Card(card.deck_id, card.deck_card_id,true, card.cp_name === "TablePlayed",TABLEX + CARDSPACE * tablePos, TABLEY));
 				tablePos++;
 			}
 		}
@@ -263,7 +263,7 @@ async function loadCards()
 		// Limit the number of cards played in the table to 5
 		if (opponent.length < 5) 
 		{
-			opponent.push(new Card(card.deck_id, card.deck_card_id, card.crd_name, true, card.cp_name === "TablePlayed",OPX + CARDSPACE * opPos, OPY));
+			opponent.push(new Card(card.deck_id, card.deck_card_id,true, card.cp_name === "TablePlayed",OPX + CARDSPACE * opPos, OPY));
 			opPos++;
 		}
 	}
@@ -271,7 +271,8 @@ async function loadCards()
 
 function draw()
 {
-	background(50);
+	background(100);
+	image(bg, width / 2, height / 2);
 	scoreBoard.draw();
 	
 	// draw the slots

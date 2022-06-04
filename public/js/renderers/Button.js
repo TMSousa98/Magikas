@@ -1,4 +1,4 @@
-const BWIDTH = 120;
+const BWIDTH = 150;
 const BHEIGHT = 30;
 
 class Button
