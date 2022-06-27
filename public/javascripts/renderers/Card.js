@@ -35,8 +35,6 @@ class Card {
         strokeWeight(1);
         textAlign(CENTER, CENTER);
         text(this.name, this.x + CWIDTH / 2, this.y + CHEIGHT *2/ 3);
-        textAlign(LEFT, CENTER);
-        text("HP: " + this.hp, this.x + 10, this.y + CHEIGHT -15);
         imageMode(CENTER)
         image(Card.images[this.card_id],this.x+CWIDTH/2, this.y+ CHEIGHT/3,IMGSIZE,IMGSIZE);
     }
