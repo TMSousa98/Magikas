@@ -1,40 +1,24 @@
-<html lang="en">
+<html>
 <head>
-    <title>Home</title>
-    <link href="./css/style.css" rel="stylesheet">
-    <script src="./js/requests/loginAndMatchRequests.js"></script>
-    <script src="./js/requests/playerRequests.js"></script>
-    <script src="./js/login.js"></script>
-</head>
+  <title>Express</title>
+  <link rel="stylesheet" href="/stylesheets/style.css">
+  <script src="./javascripts/requests/loginAndMatchRequests.js"></script>
+  <script src="./javascripts/requests/playerRequests.js"></script>
+  <script src="./javascripts/login.js"></script>
+</head>  
 <body>
-<header>
-    <div class="logo"></div>
-    <section>
-        <nav class="menu">
-            <ul>
-                <li><a href="/">Home</a></li>
-                <li><a href="https://lumimikon.carrd.co/">Lumimikon Card</a></li>
-            </ul>
-        </nav>
-    </section>
-</header>
-<section>
-    <h1> Magikas</h1>
-    <h3> The game of Elements</h3>
-</section>
-<main>
-    <section>
-        <p> If you have a match running you will enter that match.
-            Otherwise it will go to the match making page.
-        </p>
-        <label for="name">Name: </label><input id="name" type="text">
-        <label for="password"></label>Password: <input id="password" type="password">
-        <p><input onclick="login()" type="button" value="Login"></p>
-        <p><a href="register.html">Create a new account</a></p>
-    </section>
-</main>
-<footer>
-    Made by Pedro Mourinha & Tiago Sousa
-</footer>
+  <header>
+    <div class="logo">
+      <img class ="logo-image" src="./images/Logo.png">
+    </div>
+  </header>
+  <main>
+    <div class="login">
+    <p>Name:<input type="text" id="name"></p>
+    <p>Password:<input type="password" id="password"></p>
+    <p><input type="button" value="Login" onclick="login()"></p>
+    <p><button class="register"><a href="register.html">Create a new account</a></button></p>
+    </div>
+  </main>
 </body>
 </html>

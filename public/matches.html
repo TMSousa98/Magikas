@@ -1,36 +1,17 @@
-<html lang="en">
+<html>
+
 <head>
-    <title>Match</title>
-    <link href="./css/style.css" rel="stylesheet">
-    <script src="./js/requests/loginAndMatchRequests.js"></script>
-    <script src="./js/requests/playerRequests.js"></script>
-    <script src="./js/matches.js"></script>
-</head>
+  <title>Express</title>
+  <link rel="stylesheet" href="/stylesheets/style.css">
+  <script src="./javascripts/requests/loginAndMatchRequests.js"></script>
+  <script src="./javascripts/requests/playerRequests.js"></script>
+  <script src="./javascripts/matches.js"></script>
+</head>  
 <body>
-<header>
-    <div class="logo"></div>
-    <section>
-        <nav class="menu">
-            <ul>
-                <li><a href="/">Home</a></li>
-                <li><a href="https://lumimikon.carrd.co/">Lumimikon Card</a></li>
-            </ul>
-        </nav>
-    </section>
-</header>
-<section>
-    <h1> Magikas</h1>
-    <h3> The game of Elements</h3>
-</section>
-<main>
-    <p>After creating or joining a match you cannot leave and cannot
-        create/join other matches until you finish that match</p>
+  <main>
     <section id="matches"></section>
-    <input onclick="createMatch()" type="button" value="Create my match">
-</main>
-<footer>
-    Made by Pedro Mourinha & Tiago Sousa
-</footer>
+    <input type="button" value="Create my match" onclick="createMatch()">
+  </main>
 </body>
 
 </html>
